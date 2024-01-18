@@ -1,54 +1,57 @@
 /*
-* Author:Md.Sholayman
-*Description: This is the file that contains all the config for the website
-* Date:17-01-2023
+* Author: Md. Sholayman
+* Description: This is the file that contains all the config of the app
+* Date : 23 December 2023
 * */
 
-//importing necessary module
-const express = require("express");
-const app = new express();
-const mongoose = require("mongoose");
+
+const express = require('express');
+const app = new express() ;
 const router = require("./src/Routes/api");
 
-//security middleware
+
+//importing database
+const mongoose = require("mongoose");
+
+//importing security middlewares
+
+require("dotenv").config();
 const cors = require("cors");
-const hpp = require("hpp");
 const helmet = require("helmet");
+const hpp = require("hpp");
 const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
-require("dotenv").config();
-const rateLimit = require("express-rate-limit");
-
+const { rateLimit } = require("express-rate-limit");
 
 
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, limit: 100, standardHeaders: 'draft-7', legacyHeaders: false,
-})
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+    standardHeaders: "draft-7", // draft-6: RateLimit-* headers; draft-7: combined RateLimit header
+    legacyHeaders: false, // X-RateLimit-* headers
+    // store: ... , // Use an external store for more precise rate limiting
+});
 
+//implementation of middlewares
 
-//implementing middlewares
 app.use(cors());
-app.use(helmet());
 app.use(hpp());
-app.use(express.json());
+app.use(helmet());
 app.use(xss());
 app.use(mongoSanitize());
-app.use(rateLimit)
+app.use(limiter);
+app.use(express.json());
+app.use(express.urlencoded());
 
 
-//connection with routes
-app.use("api/v1" , router);
-
-//404 not found
-app.get("*" , (req,res)=>{
-    res.status(404).json({status:"Not Found"})
-})
+//implementation of routes
+app.use("/api/v1", router );
 
 
-//connection with mongodb database by mongoose
 async function connectToMongoDB() {
     try {
-        const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.dfbtq6i.mongodb.net/portfolio`;
+        const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.qrr0y.mongodb.net/portfolio`;
+        const OPTIONS = { user: "", pass: "" };
         await mongoose.connect(uri);
         console.log("Connected to MongoDB");
 
@@ -62,5 +65,4 @@ async function connectToMongoDB() {
 connectToMongoDB();
 
 
-module.exports = app;
-
+module.exports = app ;

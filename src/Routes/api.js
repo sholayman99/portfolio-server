@@ -11,7 +11,7 @@ const ProjectController = require("../Controllers/ProjectController");
 //api end-point for projects
 router.post("/CreateProject",ProjectController.CreateProject);
 router.get("/FindProjects",ProjectController.FindProjects);
-router.get("/FindProjects/:id",ProjectController.FindAProject);
+router.get("/FindAProject/:id",ProjectController.FindAProject);
 
 
 module.exports=router;
