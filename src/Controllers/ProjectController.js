@@ -5,6 +5,7 @@
 * */
 
 const ProjectModel = require("../Models/ProjectModel");
+const ToolModel = require("../Models/ToolModel")
 
 
 //create project controller
@@ -40,5 +41,14 @@ exports.FindAProject=async (req,res)=>{
         res.status(400).json({status:"fail" , data:e.message})
     }
 
+}
+
+exports.FindTools = async(req,res)=>{
+    try {
+        let data = await ToolModel.find({})
+        res.status(200).json({status:"success" , data:data})
+    }catch (e) {
+        res.status(400).json({status:"fail" , data:e.message})
+    }
 }
 

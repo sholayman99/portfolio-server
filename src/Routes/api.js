@@ -12,6 +12,7 @@ const ProjectController = require("../Controllers/ProjectController");
 router.post("/CreateProject",ProjectController.CreateProject);
 router.get("/FindProjects",ProjectController.FindProjects);
 router.get("/FindAProject/:id",ProjectController.FindAProject);
+router.get("/FindTools" , ProjectController.FindTools);
 
 
 
