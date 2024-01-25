@@ -47,9 +47,10 @@ app.use(express.urlencoded());
 //implementation of routes
 app.use("/api/v1", router );
 
-app.use("*",async(req,res)=>{
-    res.status(404).json({status:"Not Found"});
-})
+//implementation if undefined route
+app.use("*" , (req,res) =>{
+    res.status(404).json({message:"Fail",data:"Not Found"});
+});
 
 
 async function connectToMongoDB() {
