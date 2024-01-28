@@ -41,7 +41,7 @@ app.use(xss());
 app.use(mongoSanitize());
 app.use(limiter);
 app.use(express.json());
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 
 
 //implementation of routes
