@@ -23,7 +23,9 @@ exports.CreateProject=async (req,res)=>{
 //find all project controller
 exports.FindProjects=async (req,res)=>{
     try {
-        let data = await ProjectModel.find({});
+        let matchStage = {$match:{}};
+        let sortStage = {$sort:{"createdAt":-1}};
+        let data = await ProjectModel.aggregate([matchStage,sortStage]);
         res.status(200).json({status:"success" , data:data})
     }catch (e) {
         res.status(400).json({status:"fail" , data:e.message})
