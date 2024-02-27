@@ -9,6 +9,7 @@ const mongoose = require("mongoose");
 const ProjectSchema = mongoose.Schema({
     title:{type:String , require:true},
     cover:{type:String , require:true},
+    feature:{type:String , require:true},
     overview:{type:String , require:true},
     shortDes:{type:String , require:true},
     img1:{type:String,  default:"https://i.ibb.co/yPswMYN/no-image-available.jpg" },
